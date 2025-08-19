@@ -13,10 +13,12 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
-    
+    shots = pygame.sprite.Group()
+
     player.Player.containers = (updatable, drawable)
     asteroid.Asteroid.containers = (asteroids, updatable, drawable)
     asteroidfield.AsteroidField.containers = (updatable,)
+    player.Shot.containers = (shots, updatable, drawable)
     
     rocks = asteroidfield.AsteroidField()
     ship = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -33,6 +35,9 @@ def main():
             if rock.collides(ship):
                 print("Game over!")
                 sys.exit()
+            for shot in shots:
+                if rock.collides(shot):
+                    rock.split()
         for object in drawable:
             object.draw(screen)
 
